@@ -1,0 +1,22 @@
+
+
+var called = null;
+
+function qps(q, cb) {
+	if (!called) {
+		cb()
+		called = {
+				left: --q,
+				at: new Date().getTime()
+			}
+		} else if (called.at + 1000 > new Date().getTime() && called.left > 0) {
+			cb();
+			q--;
+		} else if (called.at + 1000 < new Date.getTime()) {
+			called = null;
+			qb(q, cb);
+		}
+	}
+
+
+}

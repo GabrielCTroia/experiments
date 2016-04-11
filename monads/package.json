@@ -1,0 +1,16 @@
+{
+  "name": "jackpocket",
+  "version": "0.2.5",
+  "main": "index.html",
+  "window": {
+    "toolbar": true,
+    "frame": true,
+    "width": 480,
+    "height": 640,
+    "position": "mouse",
+    "min_width": 480,
+    "min_height": 640,
+    "max_width": 320,
+    "max_height": 640
+  }
+}

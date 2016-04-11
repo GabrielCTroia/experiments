@@ -1,0 +1,44 @@
+Elm.GameLoop = Elm.GameLoop || {};
+Elm.GameLoop.make = function (_elm) {
+   "use strict";
+   _elm.GameLoop = _elm.GameLoop || {};
+   if (_elm.GameLoop.values) return _elm.GameLoop.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Mouse = Elm.Mouse.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Time = Elm.Time.make(_elm);
+   var _op = {};
+   var delta = A2($Signal.map,$Time.inSeconds,$Time.fps(30));
+   var view = function (model) {    return $Graphics$Element.show(model);};
+   var update = F2(function (action,model) {    return model;});
+   var MouseMoved = {ctor: "MouseMoved"};
+   var mouseMoved = A2($Signal.map,$Basics.always(MouseMoved),$Mouse.position);
+   var MouseClicked = {ctor: "MouseClicked"};
+   var mouseClicked = A2($Signal.map,$Basics.always(MouseClicked),$Mouse.clicks);
+   var Tick = {ctor: "Tick"};
+   var tick = A2($Signal.map,$Basics.always(Tick),$Time.every($Time.second * 3));
+   var input = $Signal.mergeMany(_U.list([mouseMoved,mouseClicked,tick]));
+   var main = A2($Signal.map,view,A2($Signal.sampleOn,delta,input));
+   var NoOp = {ctor: "NoOp"};
+   var initialModel = NoOp;
+   return _elm.GameLoop.values = {_op: _op
+                                 ,NoOp: NoOp
+                                 ,Tick: Tick
+                                 ,MouseClicked: MouseClicked
+                                 ,MouseMoved: MouseMoved
+                                 ,initialModel: initialModel
+                                 ,update: update
+                                 ,view: view
+                                 ,tick: tick
+                                 ,mouseClicked: mouseClicked
+                                 ,mouseMoved: mouseMoved
+                                 ,input: input
+                                 ,delta: delta
+                                 ,main: main};
+};
